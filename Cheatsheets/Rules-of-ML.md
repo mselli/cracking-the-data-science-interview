@@ -1,10 +1,13 @@
 The content originally comes from: https://developers.google.com/machine-learning/guides/rules-of-ml
 
 # Best Practices for ML Engineering
+
 This document is intended to help those with a basic knowledge of machine learning get the benefit of Google's best practices in machine learning. It presents a style for machine learning, similar to the Google C++ Style Guide and other popular guides to practical programming. If you have taken a class in machine learning, or built or worked on a machine­-learned model, then you have the necessary background to read this document.
 
 ## Terminology
+
 The following terms will come up repeatedly in our discussion of effective machine learning:
+
 * Instance: The thing about which you want to make a prediction. For example, the instance might be a web page that you want to classify as either "about cats" or "not about cats".
 * Label: An answer for a prediction task ­­ either the answer produced by a machine learning system, or the right answer supplied in training data. For example, the label for a web page might be "about cats".
 * Feature: A property of an instance used in a prediction task. For example, a web page might have a feature "contains the word 'cat'".
@@ -17,9 +20,11 @@ The following terms will come up repeatedly in our discussion of effective machi
 * Click-through Rate The percentage of visitors to a web page who click a link in an ad.
 
 ## Overview
+
 To make great products: **do machine learning like the great engineer you are, not like the great machine learning expert you aren’t**.
 
 Most of the problems you will face are, in fact, engineering problems. Even with all the resources of a great machine learning expert, most of the gains come from great features, not great machine learning algorithms. So, the basic approach is:
+
 1. Make sure your pipeline is solid end to end.
 2. Start with a reasonable objective.
 3. Add common­-sense features in a simple way.
@@ -28,6 +33,7 @@ Most of the problems you will face are, in fact, engineering problems. Even with
 This approach will work well for a long period of time. Diverge from this approach only when there are no more simple tricks to get you any farther. Adding complexity slows future releases.
 
 ## Before Machine Learning
+
 *Rule #1: Don’t be afraid to launch a product without machine learning.*
 
 Machine learning is cool, but it requires data. Theoretically, you can take data from a different problem and then tweak the model for a new product, but this will likely underperform basic heuristics. If you think that machine learning will give you a 100% boost, then a heuristic will get you 50% of the way there.
@@ -37,6 +43,7 @@ For instance, if you are ranking apps in an app marketplace, you could use the i
 *Rule #2: First, design and implement metrics.*
 
 Before formalizing what your machine learning system will do, track as much as possible in your current system. Do this for the following reasons:
+
 1. It is easier to gain permission from the system’s users earlier on.
 2. If you think that something might be a concern in the future, it is better to get historical data now.
 3. If you design your system with metric instrumentation in mind, things will go better for you in the future. Specifically, you don’t want to find yourself grepping for strings in logs to instrument your metrics!
@@ -51,16 +58,19 @@ By being more liberal about gathering metrics, you can gain a broader picture of
 A simple heuristic can get your product out the door. A complex heuristic is unmaintainable. Once you have data and a basic idea of what you are trying to accomplish, move on to machine learning. As in most software engineering tasks, you will want to be constantly updating your approach, whether it is a heuristic or a machine­-learned model, and you will find that the machine­-learned model is easier to update and maintain.
 
 ## ML Phase I: Your First Pipeline
+
 Focus on your system infrastructure for your first pipeline. While it is fun to think about all the imaginative machine learning you are going to do, it will be hard to figure out what is happening if you don’t first trust your pipeline.
 
 *Rule #4: Keep the first model simple and get the infrastructure right.*
 
 The first model provides the biggest boost to your product, so it doesn't need to be fancy. But you will run into many more infrastructure issues than you expect. Before anyone can use your fancy new machine learning system, you have to determine:
+
 * How to get examples to your learning algorithm.
 * A first cut as to what "good" and "bad" mean to your system.
 * How to integrate your model into your application. You can either apply the model live, or pre­compute the model on examples offline and store the results in a table. For example, you might want to pre­classify web pages and store the results in a table, but you might want to classify chat messages live.
 
 Choosing simple features makes it easier to ensure that:
+
 * The features reach your learning algorithm correctly.
 * The model learns reasonable weights.
 * The features reach your model in the server correctly.
@@ -70,6 +80,7 @@ Once you have a system that does these three things reliably, you have done most
 *Rule #5: Test the infrastructure independently from the machine learning.*
 
 Make sure that the infrastructure is testable, and that the learning parts of the system are encapsulated so that you can test everything around it. Specifically:
+
 1. Test getting data into the algorithm. Check that feature columns that should be populated are populated. Where privacy permits, manually inspect the input to your training algorithm. If possible, check statistics in your pipeline in comparison to statistics for the same data processed elsewhere.
 2. Test getting models out of the training algorithm. Make sure that the model in your training environment gives the same score as the model in your serving environment.
 
@@ -82,6 +93,7 @@ Often we create a pipeline by copying an existing pipeline (i.e., cargo cult pro
 *Rule #7: Turn heuristics into features, or handle them externally.*
 
 Usually the problems that machine learning is trying to solve are not completely new. There is an existing system for ranking, or classifying, or whatever problem you are trying to solve. This means that there are a bunch of rules and heuristics. These same heuristics can give you a lift when tweaked with machine learning. Your heuristics should be mined for whatever information they have, for two reasons. First, the transition to a machine learned system will be smoother. Second, usually those rules contain a lot of the intuition about the system you don’t want to throw away. There are four ways you can use an existing heuristic:
+
 * Preprocess using the heuristic. If the feature is incredibly awesome, then this is an option. For example, if, in a spam filter, the sender has already been blacklisted, don’t try to relearn what "blacklisted" means. Block the message. This approach makes the most sense in binary classification tasks.
 * Create a feature. Directly creating a feature from the heuristic is great. For example, if you use a heuristic to compute a relevance score for a query result, you can include the score as the value of a feature. Later on you may want to use machine learning techniques to massage the value (for example, converting the value into one of a finite set of discrete values, or combining it with other features) but start by using the raw value produced by the heuristic.
 * Mine the raw inputs of the heuristic. If there is a heuristic for apps that combines the number of installs, the number of characters in the text, and the day of the week, then consider pulling these pieces apart, and feeding these inputs into the learning separately. Some techniques that apply to ensembles apply here.
@@ -90,6 +102,7 @@ Usually the problems that machine learning is trying to solve are not completely
 Do be mindful of the added complexity when using heuristics in an ML system. Using old heuristics in your new machine learning algorithm can help to create a smooth transition, but think about whether there is a simpler way to accomplish the same effect.
 
 ### Monitoring
+
 In general, practice good alerting hygiene, such as making alerts actionable and having a dashboard page.
 
 *Rule #8: Know the freshness requirements of your system.*
@@ -111,6 +124,7 @@ This is a problem that occurs more for machine learning systems than for other k
 If the system is large, and there are many feature columns, know who created or is maintaining each feature column. If you find that the person who understands a feature column is leaving, make sure that someone has the information. Although many feature columns have descriptive names, it's good to have a more detailed description of what the feature is, where it came from, and how it is expected to help.
 
 ### Your First Objective
+
 You have many metrics, or measurements about the system that you care about, but your machine learning algorithm will often require a single objective, a number that your algorithm is "trying" to optimize. I distinguish here between objectives and metrics: a metric is any number that your system reports, which may or may not be important.
 
 *Rule #12: Don’t overthink which objective you choose to directly optimize.*
@@ -124,6 +138,7 @@ So, keep it simple and don’t think too hard about balancing different metrics 
 Often you don't know what the true objective is. You think you do but then as you stare at the data and side-by-side analysis of your old system and new ML system, you realize you want to tweak the objective. Further, different team members often can't agree on the true objective. The ML objective should be something that is easy to measure and is a proxy for the "true" objective. In fact, there is often no "true" objective. So train on the simple ML objective, and consider having a "policy layer" on top that allows you to add additional logic (hopefully very simple logic) to do the final ranking.
 
 The easiest thing to model is a user behavior that is directly observed and attributable to an action of the system:
+
 * Was this ranked link clicked?
 * Was this ranked object downloaded?
 * Was this ranked object forwarded/replied to/e­mailed?
@@ -131,6 +146,7 @@ The easiest thing to model is a user behavior that is directly observed and attr
 * Was this shown object marked as spam/pornography/offensive?
 
 Avoid modeling indirect effects at first:
+
 * Did the user visit the next day?
 * How long did the user visit the site?
 * What were the daily active users?
@@ -138,6 +154,7 @@ Avoid modeling indirect effects at first:
 Indirect effects make great metrics, and can be used during A/B testing and during launch decisions.
 
 Finally, don’t try to get the machine learning to figure out:
+
 * Is the user happy using the product?
 * Is the user satisfied with the experience?
 * Is the product improving the user’s overall well­being?
@@ -160,6 +177,7 @@ Quality ranking is a fine art, but spam filtering is a war. The signals that you
 At some level, the output of these two systems will have to be integrated. Keep in mind, filtering spam in search results should probably be more aggressive than filtering spam in email messages. This is true assuming that you have no regularization and that your algorithm has converged. It is approximately true in general. Also, it is a standard practice to remove spam from the training data for the quality classifier.
 
 ## ML Phase II: Feature Engineering
+
 In the first phase of the lifecycle of a machine learning system, the important issues are to get the training data into the learning system, get any metrics of interest instrumented, and create a serving infrastructure. After you have a working end to end system with unit and system tests instrumented, Phase II begins.
 
 In the second phase, there is a lot of low-hanging fruit. There are a variety of obvious features that could be pulled into the system. Thus, the second phase of machine learning involves pulling in as many features as possible and combining them in intuitive ways. During this phase, all of the metrics should still be rising. There will be lots of launches, and it is a great time to pull in lots of engineers that can join up all the data that you need to create a truly awesome learning system.
@@ -167,6 +185,7 @@ In the second phase, there is a lot of low-hanging fruit. There are a variety of
 *Rule #16: Plan to launch and iterate.*
 
 Don’t expect that the model you are working on now will be the last one that you will launch, or even that you will ever stop launching models. Thus consider whether the complexity you are adding with this launch will slow down future launches. Many teams have launched a model per quarter or more for years. There are three basic reasons to launch new models:
+
 * You are coming up with new features.
 * You are tuning regularization and combining old features in new ways.
 * You are tuning the objective.
@@ -204,6 +223,7 @@ When working with text there are two alternatives. The most draconian is a dot p
 *Rule #21: The number of feature weights you can learn in a linear model is roughly proportional to the amount of data you have.*
 
 There are fascinating statistical learning theory results concerning the appropriate level of complexity for a model, but this rule is basically all you need to know. I have had conversations in which people were doubtful that anything can be learned from one thousand examples, or that you would ever need more than one million examples, because they get stuck in a certain method of learning. The key is to scale your learning to the size of your data:
+
 1. If you are working on a search ranking system, and there are millions of different words in the documents and the query and you have 1000 labeled examples, then you should use a dot product between document and query features, TF-IDF, and a half-dozen other highly human-engineered features. 1000 examples, a dozen features.
 2. If you have a million examples, then intersect the document and query feature columns, using regularization and possibly feature selection. This will give you millions of features, but with regularization you will have fewer. Ten million examples, maybe a hundred thousand features.
 3. If you have billions or hundreds of billions of examples, you can cross the feature columns with document and query tokens, using feature selection and regularization. You will have a billion examples, and 10 million features. Statistical learning theory rarely gives tight bounds, but gives great guidance for a starting point.
@@ -217,6 +237,7 @@ Keep coverage in mind when considering what features to add or keep. How many ex
 At the same time, some features may punch above their weight. For example, if you have a feature which covers only 1% of the data, but 90% of the examples that have the feature are positive, then it will be a great feature to add.
 
 ### Human Analysis of the System
+
 Before going on to the third phase of machine learning, it is important to focus on something that is not taught in any machine learning class: how to look at an existing model, and improve it. This is more of an art than a science, and yet there are several anti­patterns that it helps to avoid.
 
 *Rule #23: You are not a typical end user.*
@@ -254,7 +275,9 @@ Imagine that you have a new system that looks at every doc_id and exact_query, a
 The only way to understand how such a system would work long-term is to have it train only on data acquired when the model was live. This is very difficult.
 
 ### Training-Serving Skew
+
 Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by:
+
 * A discrepancy between how you handle data in the training and serving pipelines.
 * A change in the data between when you train and when you serve.
 * A feedback loop between your model and your algorithm.
@@ -292,6 +315,7 @@ Note that if your filter is blocking 95% of the negative examples or more, this 
 *Rule #35: Beware of the inherent skew in ranking problems.*
 
 When you switch your ranking algorithm radically enough that different results show up, you have effectively changed the data that your algorithm is going to see in the future. This kind of skew will show up, and you should design your model around it. There are multiple different approaches. These approaches are all ways to favor data that your model has already seen.
+
 1. Have higher regularization on features that cover more queries as opposed to those features that are on for only one query. This way, the model will favor features that are specific to one or a few queries over features that generalize to all queries. This approach can help prevent very popular results from leaking into irrelevant queries. Note that this is opposite the more conventional advice of having more regularization on feature columns with more unique values.
 2. Only allow features to have positive weights. Thus, any good feature will be better than a feature that is "unknown".
 3. Don’t have document-only features. This is an extreme version of #1. For example, even if a given app is a popular download regardless of what the query was, you don’t want to show it everywhere. Not having document-only features keeps that simple. The reason you don’t want to show a specific popular app everywhere has to do with the importance of making all the desired apps reachable. For instance, if someone searches for "bird watching app", they might download "angry birds", but that certainly wasn’t their intent. Showing such an app might improve download rate, but leave the user’s needs ultimately unsatisfied.
@@ -305,11 +329,13 @@ Note that it is important to keep any positional features somewhat separate from
 *Rule #37: Measure Training/Serving Skew.*
 
 There are several things that can cause skew in the most general sense. Moreover, you can divide it into several parts:
+
 * The difference between the performance on the training data and the holdout data. In general, this will always exist, and it is not always bad.
 * The difference between the performance on the holdout data and the "next­day" data. Again, this will always exist. You should tune your regularization to maximize the next-day performance. However, large drops in performance between holdout and next-day data may indicate that some features are time-sensitive and possibly degrading model performance.
 * The difference between the performance on the "next-day" data and the live data. If you apply a model to an example in the training data and the same example at serving, it should give you exactly the same result. Thus, a discrepancy here probably indicates an engineering error.
 
 ## ML Phase III: Slowed Growth, Optimization Refinement, and Complex Models
+
 There will be certain indications that the second phase is reaching a close. First of all, your monthly gains will start to diminish. You will start to have tradeoffs between metrics: you will see some rise and others fall in some experiments. This is where it gets interesting. Since the gains are harder to achieve, the machine learning has to get more sophisticated. A caveat: this section has more blue-sky rules than earlier sections. We have seen many teams go through the happy times of Phase I and Phase II machine learning. Once Phase III has been reached, teams have to find their own path.
 
 *Rule #38: Don’t waste time on new features if unaligned objectives have become the issue.*
