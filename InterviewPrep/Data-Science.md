@@ -314,12 +314,19 @@ build the variant products (control vs )
 - **consistency:** **bucketing users vs. sessions**. If the same people will use your product multiple times in the course of your A/B test, you probably want to give those people the same experience each time. For some tests, it may be important to give users consistency across platforms. Say your product includes both a desktop site and a mobile app
 
 - **Step 1: Define the problem**. Clarify the problem and goals. Discuss the user journey and specific user segments to define the scope.
+
 - **Step 2: Identify key metrics**. Define 1-2 metrics for each of the following: north star, primary success, guardrail, and secondary metrics.
+
 - **Step 3: Select the unit of randomization**. Discuss the unit of randomization and triggering criteria that you’ll select to ensure representative samples.
+
 - **Step 4: Formulate hypotheses**. State the null and alternative hypothesis.
+
 - **Step 5: Select a statistical test**. Consider the nature of the data and the hypothesis to select the appropriate statistical test.
+
 - **Step 6: Conduct power analysis**. Discuss the inputs and output of the power analysis. Discuss the ramp-up strategy, if needed.
+
 - **Step 7: Analyze test results**. Talk through how and when you would analyze test results.
+
 - **Step 8: Evaluate and make recommendations**. Discuss what evidence you’d need to launch the A/B test to 100% of the population.
 
 <img src="file:///Users/xonxis/Library/Application%20Support/marktext/images/2025-11-15-22-05-23-image.png" title="" alt="" width="431">
