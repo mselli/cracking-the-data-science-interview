@@ -5,13 +5,13 @@
 - **En Python:** Se puede simular el acceso "privado" utilizando un prefijo de doble guion bajo (`__`) en un nombre de atributo o método. Aunque no es estrictamente privado (Python usa un mecanismo llamado "name mangling"), sirve como una convención para indicar que no debe ser accedido directamente desde fuera de la clase.
 2. **Abstracción**
 - **Concepto:** Oculta la complejidad del mundo real y muestra solo la información necesaria para el usuario. Permite definir una interfaz simplificada para interactuar con un objeto sin revelar los detalles de implementación.
-- **En Python:** Se implementa mediante clases abstractas y métodos abstractos. Se utiliza el módulo `abc` (Abstract Base Classes) para definir clases que no pueden ser instanciadas y que forzan a las subclases a implementar ciertos métodos.
 
+- **En Python:** Se implementa mediante clases abstractas y métodos abstractos. Se utiliza el módulo `abc` (Abstract Base Classes) para definir clases que no pueden ser instanciadas y que forzan a las subclases a implementar ciertos métodos.
+  
   Abstraction is typically achieved in OOP through the use of abstract classes and interfaces. 
   **Abstract classes**: These are classes that cannot be instantiated on their own but are meant to be inherited by other classes. **They can contain both abstract methods (methods without a body) and concrete methods (methods with an implementation). **
   **Interfaces**: These define a contract with a set of method signatures that a class must implement. **They are a way to specify what an object can do without dictating how it does it**. 
 3. **Herencia**
-
 - **Concepto:** Permite que una nueva clase (subclase) herede atributos y métodos de una clase existente (superclase). Esto promueve la reutilización de código y establece una jerarquía entre las clases.
 - **En Python:** Se implementa simplemente al definir una nueva clase que toma la clase padre entre paréntesis. Por ejemplo, `class Coche(Vehiculo):` hace que `Coche` herede de `Vehiculo`.
 4. **Polimorfismo**

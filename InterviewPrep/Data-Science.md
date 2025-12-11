@@ -1,43 +1,38 @@
 # 
 
+# Glosary
+
+`P-value:` probability of observing the value of the calculated test statistic under the null hypothesis assumptions.
+
+`Significance level ($\alpha$):` This is the **probability of incorrectly rejecting a true null hypothesis** (making a Type I error) that you are willing to accept. The standard is ![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)5% (![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)0.05), but this can be adjusted.
+
+            **If the p-value is smaller than the significance level (α), the result is statistically significant and we can reject the null hypothesis.**
+
+
+
+`Confidence Level:` is the percentage of times you expect to reproduce an estimate between the upper and lower bounds of the confidence interval, and is set as 1 - \alpha
+
+`Confidence Interval:` is a range of values that, if a large sample were taken, it would contain the parameter value of interest (1-\alpha)\% of the time. It is the **range of values that you expect your estimate to fall between a certain percentage of the time** if you run your experiment again or re-sample the population in the same way.
+
+`Power:` **Can be thought of the probability of getting a small p-value( <0.05). It is the probability of detecting a statistically significant effect if it truly exists**. It is the probability of correctly rejecting a false null hypothesis, which is equivalent to 1−𝛽 (where 𝛽 is the probability of a Type II error, or a false negative).
+
+
+
 # General concepts
-
-## Stable Unit Treatment Value Assumption (SUTVA)
-
-The Stable Unit Treatment Value Assumption (SUTVA) is a key concept in causal inference that states each individual's outcome depends only on their own treatment assignment, not on the treatment of others. It has two main components: no interference (no spillover effects between units) and no hidden variations of treatment (each treatment is a single, consistent version). Violating SUTVA, such as when a treatment affects other individuals, can lead to biased causal effect estimates.  
-
-No interference
-
-- This component assumes that the treatment status of one unit does not affect the potential outcome of another unit.
-- **Example:** In a study on a tutoring program, SUTVA assumes that a student receiving tutoring does not affect the grades of a student who is not receiving tutoring. 
-
-No hidden variations of treatment 
-
-- This component assumes that there is only one version of each treatment. 
-
-- **Example:** If a study is testing "15 minutes of exercise," SUTVA assumes every person assigned to that treatment is doing 15 minutes of exercise, and not different durations or types of exercise. 
-
-Why SUTVA is important
-
-- It is a fundamental assumption for correctly interpreting the results of causal studies, including A/B testing. 
-
-- Without SUTVA, it is difficult to estimate a clear and unambiguous causal effect. 
-
-- Violations require adjustments to analysis or a redefinition of the experimental units to account for the interference or multiple treatment versions.
 
 ## P-value
 
-Put simply, a p-value is the probability of observing the value of the calculated test statistic under the null hypothesis assumptions. Usually, the p-value is assessed relative to some predetermined level of significance (0.05 is often chosen).
+Put simply, a p-value is the **probability of observing the value of the calculated test statistic under the null hypothesis assumptions**. Usually, the p-value is assessed relative to some predetermined level of significance (0.05 is often chosen).
 
-Is the probability of observing the results obtained, given that the null hypthesis is TRUE
+p value Is the probability of observing the results obtained, given that the null hypthesis is TRUE
 
-- If p <=0.05     => There is strong evidence to suggest the effect observed (H_1) is real and the null hypothesis (H_0) can be rejected
+- If p <=0.05     => There is strong evidence to suggest the effect observed (H_1) is real and t**he null hypothesis (H_0) can be rejected**
 
 - If p > 0.05 Not enough evidence to reject the H_0
   
   - increased risk of Type I errors
 
-In conducting a hypothesis test, an \alpha, or measure of the acceptable probability of rejecting a true null hypothesis, is typically chosen prior to conducting the test.
+In conducting a hypothesis test, an $\alpha$,  or measure of the acceptable probability of rejecting a true null hypothesis, is typically chosen prior to conducting the test.
 
 ## Confidence Interval
 
@@ -45,11 +40,11 @@ In conducting a hypothesis test, an \alpha, or measure of the acceptable probabi
 
 The confidence interval is a range of values that, if a large sample were taken, it would contain the parameter value of interest $(1-\alpha)$% of the time.
 
-For instance, a 95% confidence interval would contain the true value 95% of the time. <mark>If 0 is included in the confidence intervals, then we cannot reject the null hypothesis</mark> (and vice versa).
+For instance, a 95% confidence interval would contain the true value 95% of the time. **If 0 is included in the confidence intervals, then we cannot reject the null hypothesis** (and vice versa).``
 
 When you make an estimate in statistics, whether it is a summary statistic or a test statistic, there is always uncertainty around that estimate because the number is based on a sample of the population you are studying.
 
-- The **confidence interval** is the <mark>range of values that you expect your estimate to fall between a certain percentage of the time</mark> if you run your experiment again or re-sample the population in the same way.
+- The **confidence interval** is the **range of values that you expect your estimate to fall between a certain percentage of the time** if you run your experiment again or re-sample the population in the same way.
 - The **confidence level** is the percentage of times you expect to reproduce an estimate between the upper and lower bounds of the confidence interval, and is set as **1 - α**
 
 Typically, there is a trade-off between the width of the confidence interval and the confidence level. **A higher confidence level leads to a wider interval because we are more certain that the parameter of interest lies within that range. Conversely, a lower confidence level results in a narrower interval, but it also means we are less confident that the interval contains the parameter of interest.**
@@ -60,11 +55,11 @@ In A/B testing, the primary use of a confidence interval is to **quantify the un
 
 Instead of just getting a single number (e.g., "Variant B had a 2% higher conversion rate"), the CI provides a range of plausible values for the true effect in the overall population.
 
-## Type 1 Error
+## Type 1 Error - FP
 
 A Type 1 error occurs when the null hypothesis (H0) is incorrectly rejected when it is actually true. In other words, it’s a **false positive** or a conclusion that there is an effect or difference when there isn’t.
 
-## Type 2 Error
+## Type 2 Error - FN
 
 A Type 2 error occurs when the null hypothesis (H0) is not rejected when it is actually false. In other words, it’s a **false negative** or a conclusion that there is no effect or difference when there actually is.
 
@@ -80,23 +75,26 @@ Increasing the sample size generally reduces the risk of both Type 1 and Type 2 
 
 ## Power
 
-- **Definition:** Power is the **probability of correctly rejecting a false null hypothesis**, which is equivalent to 1−𝛽 (where 𝛽 is the probability of a Type II error, or a false negative). Can be thought of the probability of getting a small p-value( <0.05)
+- **Definition:** Power is the probability of correctly rejecting a false null hypothesis, which is equivalent to 1−𝛽 (where 𝛽 is the probability of a Type II error, or a false negative). **Can be thought of the probability of getting a small p-value( <0.05)**
 
 - **Why it's important:** A study with low power has a high risk of missing a real effect, leading to incorrect conclusions and wasted time and money.
 
-- **Common goal:** A commonly <mark>accepted level of power is 0.8 (or 80%),</mark> which means there is an 80% chance of detecting a statistically significant effect if it truly exists.
+- **Common goal:** A commonly accepted level of power is 0.8 (or 80%), which means there is an **80% chance of detecting a statistically significant effect if it truly exists.**
 
 #### Power Analysis
 
-You use statistical power to determine if your study has enough participants to reliably detect a real effect. To use power, you conduct a power analysis, which is a calculation to estimate the minimum sample size needed for your experiment given a desired significance level, power, and effect size. By calculating the necessary sample size beforehand, you can avoid a study with insufficient power, which risks failing to detect an effect that actually exists (a Type II error). 
+You use statistical power to determine if your study has enough participants to reliably detect a real effect. To use power, you conduct a **power analysis, which is a calculation to estimate the minimum sample size needed for your experiment given a desired significance level, power, and effect size**. By calculating the necessary sample size beforehand, you can avoid a study with insufficient power, which risks failing to detect an effect that actually exists (a Type II error). 
 
 How to use power in statistical analysis 
 
-1. **Define your "smallest meaningful effect" (effect size)**: Determine the smallest difference or effect that would be considered important for your study. This is a key input for a power analysis and can be based on previous research or pilot studies.
+1. **Define your "smallest meaningful effect" (effect size)**: Determine the smallest difference or effect that would be considered important for your study. This is a key input for a power analysis and can be based on previous research or pilot studies. 
+   
+   1. - Lower MDEs = Larger sample size
+      - Higher MDEs = Smaller sample size
 
-2. **Set your significance level (alpha)**: This is the **probability of making a Type I error** (incorrectly rejecting a true null hypothesis) that you are willing to accept. The standard is ![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)5% (![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)0.05), but this can be adjusted.
+2. **Set your significance level (alpha)**: This is the **probability of incorrectly rejecting a true null hypothesis** (making a Type I error) that you are willing to accept. The standard is ![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)5% (![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)0.05), but this can be adjusted.
 
-3. **Choose your desired power**: **The power is the probability of correctly rejecting a false null hypothesis**, which is the probability of detecting a real effect. A power of![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)0.8 (or ![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)80%) is commonly used, meaning you want an ![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)80% chance of detecting the effect if it exists.
+3. **Choose your desired power**: The power is the probability of correctly rejecting a false null hypothesis, which is the **probability of detecting a real effect**. A power of![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)0.8 (or ![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)80%) is commonly used, meaning you want an ![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)80% chance of detecting the effect if it exists.
 
 4. **Calculate sample size**: Use the three values above **(significance level, power, and effect size**) to calculate the required sample size **using statistical power calculator.**
 
@@ -104,7 +102,7 @@ How to use power in statistical analysis 
 
 6. effect size = overlap between diitribtions
    
-   ![](/Users/xonxis/Library/Application%20Support/marktext/images/2025-11-16-18-39-18-image.png)
+   <img title="" src="file:///Users/xonxis/Library/Application%20Support/marktext/images/2025-11-16-18-39-18-image.png" alt="" width="629">
 
 # Hypothesis Testing
 
@@ -169,17 +167,9 @@ Refer to the table below for the uses, statistical formulas, and examples of the
 
 ### Student's T distribution
 
-William Gosset was an English statistician who worked for the brewery of Guinness.
+*William Gosset was an English statistician who worked for the brewery of Guinness. He developed different methods for the selection of the best yielding varieties of barley, An important ingredient when making beer. Gosset found big samples tedious, so he was trying to develop a way to extract small samples, but still come up with meaningful predictions. He was a curious and productive researcher, and published a number of papers that are still relevant today. However, due to the Guinness Company policy, he was not allowed to sign the papers with his own name. Therefore, all of his work was under the pen name Student. Later on, a friend of his and a famous statistician, Ronald Fisher, stepping on the findings of Gosset introduced the T-statistic, and the name that stuck with the corresponding distribution even today is Student's T.*
 
-He developed different methods for the selection of the best yielding varieties of barley, An important ingredient when making beer.
-
-Gosset found big samples tedious, so he was trying to develop a way to extract small samples, but still come up with meaningful predictions.
-
-He was a curious and productive researcher, and published a number of papers that are still relevant today. However, due to the Guinness Company policy, he was not allowed to sign the papers with his own name. Therefore, all of his work was under the pen name Student. Later on, a friend of his and a famous statistician, Ronald Fisher, stepping on the findings of Gosset introduced the T-statistic, and the name that stuck
-
-with the corresponding distribution even today is Student's T.
-
-The Student's T distribution is one of the biggest breakthroughs in statistics, as it allowed inferences through small samples with an unknown population variance.
+The Student's T distribution is one of the biggest breakthroughs in statistics, as it allowed inferences **through small samples with an unknown population variance**.
 
 **Example**
 
@@ -189,19 +179,15 @@ In the example interview question, you could say,
 
 [Choosing the Right Statistical Test | Types &amp; Examples](https://www.scribbr.com/statistics/statistical-tests/) 
 
-![Choosing the right statistical test](https://www.scribbr.com/wp-content/uploads//2020/01/flowchart-for-choosing-a-statistical-test.png)
+<img title="" src="https://www.scribbr.com/wp-content/uploads//2020/01/flowchart-for-choosing-a-statistical-test.png" alt="Choosing the right statistical test" width="807">
 
 ## [Step 3: Choose a significance level (α)](https://www.tryexponent.com/courses/data-science/statistics-experimentation-questions/answer-hypothesis-tests-questions#step-3-choose-a-significance-level-%CE%B1)
 
 This is the threshold for how much evidence is required to reject the null hypothesis (aka Type I error). Common significance levels are 0.05 (5%) and 0.01 (1%).
 
-Consider the scenario and discuss it with the interviewer to pick a reasonable α. Refer to the “Choosing a significance level” section below to guide this discussion.
-
 **Example**
 
-In the example interview question, you could say,
-
-“The significance level (α) is set at 0.05, indicating that we're willing to accept a 5% chance of incorrectly rejecting the null hypothesis when it's actually true.”
+In the example interview question, you could say, “The significance level (α) is set at 0.05, indicating that we're willing to accept a 5% chance of incorrectly rejecting the null hypothesis when it's actually true.”
 
 ## [Step 4: Calculate the test statistic](https://www.tryexponent.com/courses/data-science/statistics-experimentation-questions/answer-hypothesis-tests-questions#step-4-calculate-the-test-statistic)
 
@@ -219,13 +205,13 @@ $SE​​​= \sqrt{s^2_{new}/{n_{new}} + s^2_{existing}/n_{existing}} = 0.872 $
 
 $t=SE(x_{new​}−x_{existing}​)−μ0​​=0.872−5−0​=−5.73$
 
-## [Step 5: Determine the critical region](https://www.tryexponent.com/courses/data-science/statistics-experimentation-questions/answer-hypothesis-tests-questions#step-5-determine-the-critical-region)
+## [Step 5: Determine the critical region (optional)](https://www.tryexponent.com/courses/data-science/statistics-experimentation-questions/answer-hypothesis-tests-questions#step-5-determine-the-critical-region)
 
-Based on the significance level (α) and <mark>the chosen test statistic, determine the critical region(s) where the null hypothesis will be rejected.</mark>
+Based on the significance level (α) and the chosen test statistic, determine the critical region(s) where the null hypothesis will be rejected.
 
-<mark>Critical regions are regions of extreme values of the test statistic that would lead to rejection of the null hypothesis.</mark>
+Critical regions are regions of extreme values of the test statistic that would lead to rejection of the null hypothesis.
 
-<mark>**Critical values are specific threshold values that define the boundary of the critical region**</mark>.
+**Critical values are specific threshold values that define the boundary of the critical region**.
 
 ![Critical Region Null Hypothesis](https://images.ctfassets.net/x78yjrjc11pq/1EFfZ6xJHBAiNx0ZmGQOPe/dbc46c7b8265ba9d303c4a8680650e90/Critical_Region_Null_Hypothesis.png)
 
@@ -244,9 +230,9 @@ The critical values from the **t-distribution table **with df degrees of freedom
 The critical region and the p-value are both ways to assess the evidence against the null hypothesis.
 
 1. **Compare the calculated test statistic to the critical value(s) from the distribution under the null hypothesis:** If the calculated test statistic falls within the critical region, reject the null hypothesis. Otherwise, fail to reject the null hypothesis.
-2. **Compare the p-value with the significance level:** <mark>Use the appropriate probability distribution associated with your test statistic to find the p-value</mark>. If the p-value is smaller than the significance level (α), the result is statistically significant and we can reject the null hypothesis. Otherwise, fail to reject the null hypothesis.
+2. **Compare the p-value with the significance level:** Use the appropriate probability distribution associated with your test statistic to find the p-value. **If the p-value is smaller than the significance level (α)**, the result is statistically significant and we can reject the null hypothesis. Otherwise, fail to reject the null hypothesis.
 
-<mark>The p-value is more commonly used</mark> when sharing results with stakeholders since it doesn’t vary based on the test statistic distribution.
+The p-value is more commonly used when sharing results with stakeholders since it doesn’t vary based on the test statistic distribution.
 
 **Example**
 
@@ -290,7 +276,7 @@ https://www.tryexponent.com/courses/design-run-experiments/introduction-ab-testi
 
 *A/B testing is a specific application of hypothesis testing designed for comparing two or more versions of a variable in a controlled experiment. Hypothesis testing, on the other hand, is a broader statistical framework used to make inferences about populations based on sample data.*
 
-Statistical Methods:
+**Statistical Methods:**
 
 - A/B Testing: A/B testing often involves comparing means or proportions using statistical techniques such as t-tests or chi-square tests. It focuses on understanding if there is a statistically significant difference between the groups being compared.
 - Hypothesis Testing: Hypothesis testing encompasses a wide range of statistical methods depending on the nature of the data and the hypothesis being tested. Common methods include t-tests, z-tests, chi-square tests, ANOVA, etc.
@@ -333,37 +319,78 @@ build the variant products (control vs )
 
 ![AB Test Framework](https://images.ctfassets.net/x78yjrjc11pq/uJTKDLQGmwiTaeg6A2pNm/b2e4501a64d014f1e1cc9aa8c6d83681/AB_Test_Framework.png)
 
+![](/Users/xonxis/Library/Application%20Support/marktext/images/2025-12-10-19-48-31-image.png)
+
+example framework:
+
+![](/Users/xonxis/Library/Application%20Support/marktext/images/2025-12-10-19-41-19-image.png)
+
+![](/Users/xonxis/Library/Application%20Support/marktext/images/2025-12-10-19-40-51-image.png)
+
+## Ablation
+
+the opposite of AB testing when the feture/change is already in production and we want to do a post analysis. 
+
+![](/Users/xonxis/Library/Application%20Support/marktext/images/2025-12-10-19-52-54-image.png)
+
+## Hold back - hold out test
+
+when tou keep a very small test group and monitor it longer time.
+
+
+
 ## Step 1: Metrics
 
 <img src="file:///Users/xonxis/Library/Application%20Support/marktext/images/2025-11-15-22-08-00-image.png" title="" alt="" width="419">
-
-Define 1-2 metrics in each of the categories below:
 
 ### North star
 
 A north star metric is a single, high-level metric that encapsulates a product or business's core value or ultimate goal. It can also serve as a tie-breaker when there is a tradeoff in different company goals.
 
-For example, Monthly Active Users (MAU) reflects user engagement and retention, which are critical for a company’s success. If a feature change increases revenue but reduces MAU, the company may not ship the change.
+For example, **Monthly Active Users (MAU)** reflects user engagement and retention, which are critical for a company’s success. If a feature change increases revenue but reduces MAU, the company may not ship the change.
 
 ### Primary success
 
 Primary success metrics directly measure progress toward achieving the desired outcomes of the A/B test. It is closely tied to the north star metric, but it focuses on a specific aspect of the user journey or product experience.
 
-For example, documents created per user is a suitable primary success metric if an experiment aims to improve the document creation workflow.
+For example, **documents created per user** is a suitable primary success metric if an experiment aims to improve the document creation workflow.
 
 ### Guardrail
 
 Guardrail metrics monitor and mitigate risks associated with achieving the north star or primary success metrics. These metrics act as "guardrails" to ensure that the pursuit of growth or success does not come at the expense of other important factors such as user experience, sustainability, or compliance.
 
-For example, when increasing ad load in an app, user time spent on the app is a guardrail metric to ensure user engagement is not negatively affected.
+For example, when increasing ad load in an app, user **time spent on the app** is a guardrail metric to ensure user engagement is not negatively affected.
 
 ### Secondary
 
 Secondary metrics provide valuable insights into specific aspects of performance or user behavior but are not considered as critical as the north star or primary success metrics. These metrics are often used for deeper analysis, optimization, or understanding of user needs and preferences.
 
+
+
+### Example of metrics for web services:
+
+| **Metric Type**         | **Metric**                     | **Definition**                                                                                             | **Formula**                                                                                   | **A/B Test Relevance / Use Case**                                                                                                                               |
+| ----------------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Conversion & Funnel** | **Conversion Rate (CR)**       | The percentage of users who complete the desired action out of the total users exposed to the test.        | $$\text{CR} = \frac{\text{Unique Conversions}}{\text{Unique Users Exposed}} \times 100$$      | **Primary Success Metric (PSM).** Measures efficiency in driving the final valuable action (e.g., purchase, signup).                                            |
+|                         | **Unique Conversions**         | The number of **individual users** who completed the final conversion event at least once.                 | $$\text{Unique Conversions} = \text{Count of Unique User IDs with } \ge \text{1 Conversion}$$ | **Clean PSM.** Used to measure the true lift in the *customer base*, de-duplicated for users who convert multiple times.                                        |
+|                         | **Unique Clicks**              | The number of **individual users** who clicked on a specific link or CTA at least once.                    | $$\text{Unique Clicks} = \text{Count of Unique User IDs with } \ge \text{1 Click}$$           | **Mid-Funnel Indicator.** Assesses how many distinct people were interested enough to take the first engagement step.                                           |
+| **Engagement Rate**     | **Click-Through Rate (CTR)**   | The ratio of total clicks received relative to the total number of times the item was shown (impressions). | $$\text{CTR} = \frac{\text{Total Clicks}}{\text{Total Impressions}} \times 100$$              | **Ad & Feature Visibility.** Primary metric for optimizing ad copy, image appeal, or the placement/design of a CTA button.                                      |
+|                         | **Clicks per User**            | The average number of clicks performed by each unique user over the defined test period.                   | $$\text{Clicks per User} = \frac{\text{Total Clicks}}{\text{Unique Users Exposed}}$$          | **User Engagement Depth.** Measures how often an average user interacts. Relevant for features encouraging general platform exploration (e.g., new navigation). |
+|                         | **Clicks per Website Visit**   | The average number of clicks performed during a single user session or "visit."                            | $$\text{Clicks per Visit} = \frac{\text{Total Clicks}}{\text{Total Sessions/Visits}}$$        | **Session Efficiency.** Measures in-session behavior, assessing how functional or engaging a page is before the user leaves.                                    |
+| **Scale & Stickiness**  | **Daily Active Users (DAU)**   | The total number of **unique users** who engage with the product within a 24-hour period.                  | $$\text{DAU} = \text{Count of Unique User IDs Active on a Given Day}$$                        | Measures **Immediate Engagement**. Used as a success metric for features designed to encourage daily habit.                                                     |
+|                         | **Monthly Active Users (MAU)** | The total number of **unique users** who engage with the product at least once within a 30-day period.     | $$\text{MAU} = \text{Count of Unique User IDs Active in the Last 30 Days}$$                   | Measures **Long-term Reach and Growth**. Used to assess the overall health and size of the user base.                                                           |
+|                         | **DAU/MAU Ratio (Stickiness)** | The percentage of monthly users who return on a daily basis.                                               | $$\text{Stickiness} = \frac{\text{DAU}}{\text{MAU}} \times 100$$                              | Measures **Habitual Usage**. The key metric for evaluating features meant to increase user frequency and product "stickiness."                                  |
+| **Reach**               | **Reach**                      | The total number of **unique users/people** who were exposed to the content (ad or feature).               | $$\text{Reach} = \text{Count of Unique User IDs Exposed}$$                                    | **Guardrail Metric.** Ensures the experiment is delivered to the expected audience size and helps validate the scale of the test.                               |
+
+ 
+
 ## Step 2: Hypothesis
 
 <img src="file:///Users/xonxis/Library/Application%20Support/marktext/images/2025-11-15-22-09-41-image.png" title="" alt="" width="440">
+
+“The alternative hypothesis is that **by implementing feature X, we expect to see a change of Y% in the primary success metric**, with no significant regression in guardrail metrics, and an increase or no significant change in the north star metric.
+
+The null hypothesis is no change in metrics by implementing feature X.”
 
 ## Step 3: Experiment design
 
