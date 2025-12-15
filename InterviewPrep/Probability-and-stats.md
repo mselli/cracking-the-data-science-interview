@@ -17,10 +17,8 @@
 - **Combinations ($C^n_p$):** Picking a subset of elements where **order is irrelevant** (does not matter).
   
   $C_{p}^{n} = \binom{n}{p} = \frac{n!}{p!(n-p)!}$
-  
-  
-  
-  - Symmetry property: $C_{p}^{n} = C_{n-p}^{n}$ (Choosing $p$ elements is the same as leaving $n-p$ elements behind).
+
+- Symmetry property: $C_{p}^{n} = C_{n-p}^{n}$ (Choosing $p$ elements is the same as leaving $n-p$ elements behind).
 
 Relationship between Combinations and Variations
 
@@ -57,8 +55,6 @@ Combinations count all permutations of a given set of numbers as a single group,
   Bayes' Theorem: Used to update beliefs (hypothesis $A$) given new evidence ($B$).
 
 - $$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$$
-  
-  
 
 ---
 
@@ -91,11 +87,11 @@ For continuous distributions, $P(X=x) = 0$. Probabilities are calculated over in
 
 - **Empirical Rule (68-95-99.7):**
   
-  - 68% of data falls within $\mu \pm 1\sigma$ 53535353
+  - 68% of data falls within $\mu \pm 1\sigma$ 
   
-  - 95% of data falls within $\mu \pm 2\sigma$ 54545454
+  - 95% of data falls within $\mu \pm 2\sigma$ 
   
-  - 99.7% of data falls within $\mu \pm 3\sigma$ 55555555
+  - 99.7% of data falls within $\mu \pm 3\sigma$ 
 
 - Standard Normal ($Z$):
   
@@ -190,15 +186,15 @@ $$X \sim Bin(n, p) \approx Poi(\lambda = np)$$
 
 2. **Select Test:**
    
-   - **Z-test:** Variance known, large sample, Normal dist. 77
+   - **Z-test:** Variance known, large sample, Normal dist.
    
-   - **t-test:** Variance unknown, small sample ($n < 30$). 78
+   - **t-test:** Variance unknown, small sample ($n < 30$).
 
 3. **Define Significance Level ($\alpha$):** Typically 0.05.
 
 4. **Compare:** Resulting value vs. Critical value.
 
-**Errors and Power** 79
+**Errors and Power** 
 
 - **Confidence Level:** Typically 95% ($1 - \alpha$).
 
@@ -237,8 +233,6 @@ $$X \sim Bin(n, p) \approx Poi(\lambda = np)$$
 - $a^{-m} = \frac{1}{a^m}$
 
 - $a^0 = 1$
-
-
 
 ### Hypothesis Testing Fundamentals
 

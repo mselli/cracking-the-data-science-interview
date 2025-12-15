@@ -14,7 +14,7 @@ At Meta, the "proper" answer is less about the final number and more about the *
 
 #### **Question:**
 
-> "We are thinking of launching a new 'Stories' feature for Facebook Groups where members can post temporary video updates visible only to that group. How would you measure the success of this feature?"
+> "We are thinking of launching a new 'Stories' feature for Facebook Groups where members can post temporary video updates visible only to that grow up. How would you measure the success of this feature?"
 
 #### **How to Answer Properly:**
 

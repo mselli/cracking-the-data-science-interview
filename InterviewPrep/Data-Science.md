@@ -4,19 +4,27 @@
 
 `P-value:` probability of observing the value of the calculated test statistic under the null hypothesis assumptions.
 
-`Significance level ($\alpha$):` This is the **probability of incorrectly rejecting a true null hypothesis** (making a Type I error) that you are willing to accept. The standard is ![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)5% (![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)0.05), but this can be adjusted.
+            -- comes from a distribution table
+
+`Significance level $\alpha$:` This is the **probability of incorrectly rejecting a true null hypothesis** (making a Type I error) that you are willing to accept. The standard is ![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)5% (![](data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==)0.05), but this can be adjusted.
 
             **If the p-value is smaller than the significance level (α), the result is statistically significant and we can reject the null hypothesis.**
 
+            -- usually set as 0.05, 0.1 or 0.01 
 
+`Confidence Level:` is the percentage of times you expect to reproduce an estimate between the upper and lower bounds of the confidence interval, and is set as $1 - \alpha$   
 
-`Confidence Level:` is the percentage of times you expect to reproduce an estimate between the upper and lower bounds of the confidence interval, and is set as 1 - \alpha
+            -- usually set as 95% (if alpha is 0.05), 90%, or 99%
 
-`Confidence Interval:` is a range of values that, if a large sample were taken, it would contain the parameter value of interest (1-\alpha)\% of the time. It is the **range of values that you expect your estimate to fall between a certain percentage of the time** if you run your experiment again or re-sample the population in the same way.
+`Confidence Interval:` is a range of values that, if a large sample were taken, it would contain the parameter value of interest $(1-\alpha)\%$ of the time. It is the **range of values that you expect your estimate to fall between a certain percentage of the time** if you run your experiment again or re-sample the population in the same way.
+
+                **A higher confidence level $\rightarrow$ wider interval because we are more certain that the parameter of interest lies within that range.** 
+
+                **A lower confidence level $\rightarrow$ narrower interval, but it also means we are less confident that the interval contains the parameter of interest.**
 
 `Power:` **Can be thought of the probability of getting a small p-value( <0.05). It is the probability of detecting a statistically significant effect if it truly exists**. It is the probability of correctly rejecting a false null hypothesis, which is equivalent to 1−𝛽 (where 𝛽 is the probability of a Type II error, or a false negative).
 
-
+            -- usually set at 80% or 0.8 or higher
 
 # General concepts
 
@@ -34,7 +42,7 @@ p value Is the probability of observing the results obtained, given that the nul
 
 In conducting a hypothesis test, an $\alpha$,  or measure of the acceptable probability of rejecting a true null hypothesis, is typically chosen prior to conducting the test.
 
-## Confidence Interval
+## Confidence Interval and confidence level
 
 *In conducting a hypothesis test, a confidence interval can also be calculated to assess the test statistic.*
 
@@ -85,7 +93,7 @@ Increasing the sample size generally reduces the risk of both Type 1 and Type 2 
 
 You use statistical power to determine if your study has enough participants to reliably detect a real effect. To use power, you conduct a **power analysis, which is a calculation to estimate the minimum sample size needed for your experiment given a desired significance level, power, and effect size**. By calculating the necessary sample size beforehand, you can avoid a study with insufficient power, which risks failing to detect an effect that actually exists (a Type II error). 
 
-How to use power in statistical analysis 
+### How to use power in statistical analysis
 
 1. **Define your "smallest meaningful effect" (effect size)**: Determine the smallest difference or effect that would be considered important for your study. This is a key input for a power analysis and can be based on previous research or pilot studies. 
    
@@ -100,9 +108,11 @@ How to use power in statistical analysis 
 
 5. **Interpret the results**: The power analysis tells you the minimum number of participants you need for your study to have a good chance of finding a statistically significant result if the effect you expect is real. A lower-than-needed sample size may lead to a false negative result, while an unnecessarily large sample wastes resources.
 
-6. effect size = overlap between diitribtions
+6. **Effect Size** = overlap between diitribtions
    
-   <img title="" src="file:///Users/xonxis/Library/Application%20Support/marktext/images/2025-11-16-18-39-18-image.png" alt="" width="629">
+   **Effect Size tells you *how big* the effect you found is. Minimum Meaningful Effect tells you *how big* the effect *needs to be* to justify its use.**
+
+<img title="" src="file:///Users/xonxis/Library/Application%20Support/marktext/images/2025-11-16-18-39-18-image.png" alt="" width="629">
 
 # Hypothesis Testing
 
@@ -162,6 +172,15 @@ The statistical test depends on the nature of the data and the hypothesis being 
 - Analysis of variance (ANOVA)
 
 Refer to the table below for the uses, statistical formulas, and examples of these statistical tests.
+
+### Stat tests based on type of data
+
+| **Scale**    | **Description**                                                                                                       | **Descriptive Stats**                   | **Hypothesis Tests**                                         |
+| ------------ | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ------------------------------------------------------------ |
+| **Nominal**  | Categorical data with no order (e.g., Country, Gender).                                                               | Mode, Frequency, Proportion.            | $\chi^2$ (Chi-Square) Test.                                  |
+| **Ordinal**  | Categorical data with a meaningful rank or order (e.g., Customer Satisfaction: 1-5, Education Level).                 | Median, Mode, Percentiles.              | Non-parametric tests (e.g., Mann-Whitney U, Spearman's Rho). |
+| **Interval** | Ordered data where the difference between values is meaningful, but zero is arbitrary (e.g., Temperature in Celsius). | Mean, Median, Mode, Standard Deviation. | Parametric tests (e.g., T-tests, ANOVA).                     |
+| **Ratio**    | Ordered data with a true, meaningful zero point (e.g., Revenue, Website Sessions, Age).                               | All of the above.                       | All of the above.                                            |
 
 ![Statistical Tests](https://images.ctfassets.net/x78yjrjc11pq/3kqAgMRGHL6yfjlIZcThiC/d36df60d66927b74551a01bd4cbe1991/Statistical_Tests.png)
 
@@ -333,11 +352,49 @@ the opposite of AB testing when the feture/change is already in production and w
 
 ![](/Users/xonxis/Library/Application%20Support/marktext/images/2025-12-10-19-52-54-image.png)
 
+## 
+
 ## Hold back - hold out test
 
 when tou keep a very small test group and monitor it longer time.
 
+**A true, traditional Holdout Group is almost always kept *unexposed* to the new feature.** This is essential to maintain its status as the untouched baseline.
 
+A Holdout Group is a small, randomly selected segment of your audience that is **intentionally excluded from seeing any change or receiving any treatment** (features, promotions, campaigns, etc.) for an extended period.
+
+- **Its Purpose:** To serve as a true, uninfluenced **baseline** for measuring the **incremental lift** (the absolute, true value added) of the change being tested.
+
+### 1. The Standard Definition: Unexposed Holdout (The Baseline)
+
+A **true Holdout Group** must be unexposed to the new feature or campaign to fulfill its purpose: measuring **incrementality**.
+
+- **Goal:** To establish the baseline truth of what happens **if you do nothing**.
+
+- **Exposure:** **0% exposure** to the treatment/feature.
+
+- **The Logic:** If this group is exposed to the new feature, even temporarily, the measurement of the feature's true, long-term added value is compromised. You can no longer compare them to the exposed group to determine if the feature is providing **incremental lift** over the control.
+
+### 2. The Exception: The "Holdout" for Feature Rollout (Post-Experimentation)
+
+This is where the confusion often arises. In the context of a feature rollout, once an A/B test is complete and a new feature is declared a winner, the remaining **Control** group is sometimes referred to as a "holdout" before they are switched over.
+
+#### A. The "Holdout" during a Staged Rollout
+
+A common practice after a successful A/B test is to do a **staged rollout** (e.g., releasing the feature to 10% of users, then 50%, then 100%).
+
+- **The Group:** The remaining users who have **not yet received the feature** (the 90% in the first stage) are functionally a temporary "holdout." They are still on the old experience.
+
+- **The Goal:** To slowly ramp up the feature while monitoring for bugs or unforeseen issues before a full launch.
+
+#### B. The "Holdout" for an Optimization Freeze
+
+Another use is related to an **Ablation Study** (which we previously discussed) or a similar process of optimization:
+
+- Imagine a team has launched Feature X, and it is running for 100% of the audience. They now want to run an A/B test to optimize the **color** of a button within Feature X.
+
+- They might create a **Holdout Group** that is **exposed to Feature X** but is **excluded from seeing any *further* optimization tests (like the button color test).**
+
+In this non-traditional case, the "holdout" group **does** see the new feature but is **held out from subsequent experiments** in order to measure the baseline performance of the feature itself, without the influence of minor tweaks.
 
 ## Step 1: Metrics
 
@@ -365,8 +422,6 @@ For example, when increasing ad load in an app, user **time spent on the app** i
 
 Secondary metrics provide valuable insights into specific aspects of performance or user behavior but are not considered as critical as the north star or primary success metrics. These metrics are often used for deeper analysis, optimization, or understanding of user needs and preferences.
 
-
-
 ### Example of metrics for web services:
 
 | **Metric Type**         | **Metric**                     | **Definition**                                                                                             | **Formula**                                                                                   | **A/B Test Relevance / Use Case**                                                                                                                               |
@@ -381,8 +436,6 @@ Secondary metrics provide valuable insights into specific aspects of performance
 |                         | **Monthly Active Users (MAU)** | The total number of **unique users** who engage with the product at least once within a 30-day period.     | $$\text{MAU} = \text{Count of Unique User IDs Active in the Last 30 Days}$$                   | Measures **Long-term Reach and Growth**. Used to assess the overall health and size of the user base.                                                           |
 |                         | **DAU/MAU Ratio (Stickiness)** | The percentage of monthly users who return on a daily basis.                                               | $$\text{Stickiness} = \frac{\text{DAU}}{\text{MAU}} \times 100$$                              | Measures **Habitual Usage**. The key metric for evaluating features meant to increase user frequency and product "stickiness."                                  |
 | **Reach**               | **Reach**                      | The total number of **unique users/people** who were exposed to the content (ad or feature).               | $$\text{Reach} = \text{Count of Unique User IDs Exposed}$$                                    | **Guardrail Metric.** Ensures the experiment is delivered to the expected audience size and helps validate the scale of the test.                               |
-
- 
 
 ## Step 2: Hypothesis
 
@@ -436,6 +489,8 @@ Multiple statistical tests may be applicable in a given scenario. Practically sp
 ## Step 5
 
 <img src="file:///Users/xonxis/Library/Application%20Support/marktext/images/2025-11-15-22-14-36-image.png" title="" alt="" width="432">
+
+---
 
 # Machine Learning
 
@@ -614,7 +669,9 @@ If you cannot reject the null hypothesis (p-value greater than or equal to the t
 
 ### Data Distribution
 
-When using hypothesis tests for regression models, it is important to distinguish if you should use a parametric or non-parametric test. **Parametric tests are preferred as they usually have more statistical power than non-parametric test; this means they’re more likely to detect a statistically significant effect if one exists. <mark>However, these tests assume that the data is normally distributed</mark>; if this assumption does not hold, a non-parametric test must be used.**
+When using hypothesis tests for regression models, it is important to distinguish if you should use a parametric or non-parametric test. 
+
+**Parametric tests are preferred as they usually have more statistical power than non-parametric test; this means they’re more likely to detect a statistically significant effect if one exists. <mark>However, these tests assume that the data is normally distributed</mark>; if this assumption does not hold, a non-parametric test must be used.**
 
 ![](https://miro.medium.com/v2/resize:fit:1400/1*xH_fygqzDy9TkvkYZxvo6g.png)
 
@@ -651,7 +708,7 @@ If your machine learning model is predicting numerical values, the error metric 
 
 ![](https://miro.medium.com/v2/resize:fit:1400/1*Owd6PgOv9-pEj4d2kfhofw.png)
 
-<mark>For normally distributed data </mark>the two appropriate tests are either **Student’s t-test** or **Welch’s t-test**. They both test that two populations have the same mean but Welch’s t-test is more reliable in there is a difference in variance or sample sizes. There are two implementations depending on whether the observations are paired or unpaired.
+**For normally distributed data the two appropriate tests are either Student’s t-test or Welch’s t-test.** They both test that two populations have the same mean but Welch’s t-test is more reliable in there is a difference in variance or sample sizes. There are two implementations depending on whether the observations are paired or unpaired.
 
 The two non-parametric tests are either **Mann-Whitney U test** or **Wilcoxon signed-rank test**, depending again if the observations are paired or not.
 

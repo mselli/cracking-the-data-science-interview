@@ -12,11 +12,22 @@ REVIEW: [Top 25 SQL Data Science Interview Questions - Exponent](https://www.try
 
 `FILTER` clause used directly with aggregate functions to filter the input to that specific aggregate function
 
-`SELECT  
+```
+SELECT  
 Category,  
 COUNT(ProductID) FILTER (WHERE Price > 50) AS HighPricedProducts  
 FROM Products  
-GROUP BY Category;`
+GROUP BY Category;
+```
+
+```
+select 
+c.type
+ , count(*) filter (where processed = 'TRUE') as n_complaints_processed 
+, count(*) filter (where processed = 'FALSE') as n_complaints_not_processed 
+from facebook_complaints c
+group by c.type;
+```
 
 # STRING
 
@@ -30,7 +41,7 @@ LIKE is often accompanied with wildcards % and _. The % can represent zero or mu
 
 SELECT  'There are a total of' || ' ' || count(occupation) || ' ' || lower(occupation) || 's.' as profession
 
-## unnest an array as a cell
+## UNNEST an array as a cell
 
 **SELECT 
     TRIM(BOTH '[]#"' FROM unnest(string_to_array(fp.post_keywords, ','))) AS keyword,**
@@ -48,6 +59,8 @@ This part handles transforming the stored string of keywords into individual row
 - **`TRIM(BOTH '[]#"' FROM ...)`**: This cleans up the resulting keyword strings by removing any leading or trailing characters that are brackets (`[]`), hash signs (`#`), or double quotes (`"`). This is often necessary when dealing with data that was poorly formatted upon insertion.
 
 - **`AS keyword`**: Assigns the cleaned, individual keyword to the alias **`keyword`**, which is used for grouping.
+
+---
 
 # TIME/DATE MGMT
 
@@ -86,9 +99,15 @@ INTERVAL 'value' unit
 - [`unit`:](https://www.google.com/search?sca_esv=d44b221d688bac1f&cs=0&snr=0&sxsrf=AE3TifM4vi7rPQzKmiD78Wqjpzjvq8QbMQ%3A1765384134609&q=unit&sa=X&ved=2ahUKEwjNk7exuLORAxVbOzQIHWheH88QxccNegQIFRAD&mstk=AUtExfCcT9064vuDl63vfYPv7qV_GYm2aebTOQ_XvtPMGeCfghDFMe1wkb54N__b_ihsnUwgJ6MAgXSzRFP9CkkErQQdDd6V1TBUV3P_Ib8Q1vD3WVdufSl7vV-AJEjXyVsM48TSnRXcqJfD5-chX9VuCCcJ55mziAVp5amDPhWflutScvoxOz-723ZDUq5WjKLAMNR6yFIs1fmdlp2eMVmoUAX76Aic85swpmEl9GW8393pW19FQKQGjGmFn4YAmRcgY0uKEqCHQG1jY5IRYK9aVl7m&csui=3) 
   
   The unit of time, such as `YEAR`, `MONTH`, `DAY`, `HOUR`, `MINUTE`, `SECOND`. You can also specify ranges like `YEAR TO MONTH` or `DAY TO SECOND`.
-
-    SELECT CURRENT_DATE + INTERVAL '7' DAY; -- Adds 7 days to the current date
+  
+    SELECT CURRENT_DATE + **INTERVAL '7' DAY;** -- Adds 7 days to the current date
     SELECT '2025-01-15'::DATE + INTERVAL '2' MONTH; -- Adds 2 months to a specific date
+
+```
+DATEDIFF('second', LAG(...) ..., timestamp) * INTERVAL '1 second'
+```
+
+$\rightarrow$ INTERVAL '1 second' converts an integer (result of DATEDIFF) to interval to display it in format 
 
 ## Create months list
 
@@ -205,6 +224,8 @@ SELECT '2020-05-19 01:06:00'::time;
 SELECT TO_CHAR(TIMESTAMP '2020-05-19 01:06:00', 'HH24:MI:SS');
 
 -- Output: 01:06:00
+
+---
 
 # WINDOW FUNCTIONs
 
