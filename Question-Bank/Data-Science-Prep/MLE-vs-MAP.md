@@ -1,9 +1,11 @@
 ## Problem
+
 This problem was asked by Netflix.
 
 What are MLE and MAP? What is the difference between the two?
 
 ## Solution
+
 MLE is maximum likelihood estimation and MAP is maximum a posteriori - both are ways of estimating variables in a probability distribution by producing a single estimate of that variable.
 
 Assume that we have a likelihood function `P(X|θ)`. With n iid samples, the MLE is:

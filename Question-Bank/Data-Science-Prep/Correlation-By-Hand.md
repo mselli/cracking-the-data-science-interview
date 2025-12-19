@@ -1,9 +1,11 @@
 ## Problem
+
 This problem was asked by Robinhood.
 
 Write a program to calculate correlation (without any libraries except for math) for two lists X and Y.
 
 ## Solution
+
 We know that correlation is given by:
 
 `p_{x, y} = \frac{Cov(X, Y)}{σ_X * σ_Y}`
