@@ -1,56 +1,70 @@
 # how safe is safe enough?  Automatic Safety Constraints Boundary
 
-Estimation for Decision-Making in Automated Vehicles
+Estimation for Decision-Making in Automated Vehicles Our main contribution is a method to **automatically explore the performance limits of AV safety models using Robustness as a continuous metric of safety**.
 
-Our main contribution is a method to automatically
+• We evaluate this approach with a case study of the RSS safety model where the RSS parametric space
 
-explore the performance limits of AV safety models
+is explored to create robustness-based safety profiles of a pre-crash scenario database; obtaining as result
 
-using Robustness as a continuous metric of safety.
+the parametric boundaries of RSS for collision-free behaviors.
 
-• We evaluate this approach with a case study of the
-
-RSS safety model where the RSS parametric space
-
-is explored to create robustness-based safety profiles
-
-of a pre-crash scenario database; obtaining as result
-
-the parametric boundaries of RSS for collision-free
-
-behaviors.
-
-• Furthermore, we evaluate the trade-offs between AV
-
-safety and utility within the found safe RSS parameter
-
-space through a simulated, naturalistic-like benchmark.
-
-• Finally, we provide the library implementation de-
-
-scribed in this paper as an open-source project that
-
-can be found under the following URL: https://
-
-github.com/nellro/rgt.
+• Furthermore, we evaluate the trade-offs between AV safety and utility within the found safe RSS parameter space through a simulated, naturalistic-like benchmark.
 
 ![](/Users/xonxis/Library/Application%20Support/marktext/images/2025-12-15-07-16-46-image.png)
 
-**Search Algorithm**
+Given the search space, to-
 
-Simulated annealing (SA) is a gradient-free stochastic optimization algorithm for approximating the global optimum of a given function [25]. At each iteration k, a new sample pointˆ x∈X0 is generated using hit-and-run proposal scheme [28]. SA accepts x as xk+1 with a probability:
+gether with the chosen search algorithm, sampling produces
 
-P(xk+1 = ˆ x |xk) = 1 if ρk+1 ≤ρk (2)
+a new sample x0 from the specified set of initial conditions
 
-e−Tk (ρk+1−ρk ) if ρk+1 >ρk
+X0. After the new sample x0 ∈X0 is passed to the simulator,
 
-where ρk = ρϕ(xk), ρk+1 = ρϕ(ˆ x) and Tk >0 is a current
+it evaluates the chosen scenario and outputs a trajectory
 
-“temperature” parameter. In particular, if a new sampleˆ x
+x = f(x0). Given a safety specification ϕ and a system
 
-reduces the robustness value (ρϕ(ˆ x) ≤ ρϕ(xk)), the new sample is accepted with certainty. Otherwise, the proposal
+execution x obtained at the previous step, the robustness
 
-may still be accepted with probability e−Tk (ρk+1−ρk ).
+value ρϕ(x) is calculated. The produced sample x0 together
+
+with the corresponding robustness value ρϕ are fed into data
+
+collector that stores the overall search and robustness history.
+
+Data collector returns the recorded information back to the
+
+search algorithm and the sampling procedure produces a new
+
+sample x0. Thus, the methodology process is repeated. The
+
+decision to stop the process could be based on several criteria
+
+including generated falsifying trace, number of iterations,
+
+safety profile resolution and others.
+
+...
+
+we clustered our safe paramet ric space into two sets based on robustness. Using k-means algorithm, we visualize the robustness (ρφ) distribution of the
+
+resulting sets in Figure 6 with the centroids for the respective
+
+RSS parameters overlaid on top of the box-plots (red and
+
+blue markers).
+
+![](/Users/xonxis/Library/Application%20Support/marktext/images/2026-01-08-06-44-16-image.png)
+
+...
+
+With this paper we have only started to scratch the surface
+
+of trade-off evaluations for automated driving behavioral
+
+models. How safe is safe enough still remains an open
+
+question.
 
 # On Responsibility Sensitive Safety in Longitudinal Follow-up Situations: A Parameter Analysis on German Highways
 
@@ -112,11 +126,21 @@ simulation.
 
 # 2022 TRB: **RSS Model Calibration and Evaluation** for AV Driving Safety based on Naturalistic Driving Data
 
-Utilizing the responsibility-sensitive safety (RSS) model, a new methodology is proposed to calibrate the RSS model based on naturalistic driving data. Without significantly relying on (large) safety-critical or collision data, the proposed method defines an optimization framework to calibrate the RSS model parameters and describes AV driving safety through both safe and safety-critical data in a cross-checking manner. Evaluation of the calibrated RSS model is discussed based on naturalistic driving data in Los Angeles, USA
+Utilizing the responsibility-sensitive safety (RSS) model, a new methodology is proposed to calibrate the RSS model based on naturalistic driving data. Without significantly relying on (large) safety-critical or collision data, the proposed method defines an optimization framework to calibrate the RSS model parameters and describes AV driving safety through both safe and safety-critical data in a cross-checking manner. Evaluation of the calibrated RSS model is discussed based on naturalistic driving data in Los Angeles, USA.
 
-The optimization problem is solved by a genetic algorithm (GA), which is a method for solving nonlinear (even nonconvex) constrained optimization problems based on a natural selection process that mimics biological evolution. To find the optimal solution, at each generation, GA randomly modifies the individuals and then uses them as the parents of the next generation. After successive generations, the population evolves until the terminal conditions are satisfied
+The optimization problem is solved by a genetic algorithm (GA), which is a method for solving nonlinear (even nonconvex) constrained optimization problems... 
 
-<img src="file:///Users/xonxis/Library/Application%20Support/marktext/images/2025-12-15-07-38-00-image.png" title="" alt="" width="704">
+
+
+<img title="" src="file:///Users/xonxis/Library/Application%20Support/marktext/images/2025-12-15-07-38-00-image.png" alt="" width="553">
+
+
+
+<img src="file:///Users/xonxis/Library/Application%20Support/marktext/images/2026-01-08-06-54-13-image.png" title="" alt="" width="554">
+
+# 
+
+
 
 # 2022 SAE WCX: To err is human
 
@@ -129,3 +153,15 @@ mance of automated vehicles, and new metrics such as the
 Minimum Safe Distance Violation are more meaningful in
 
 the consideration of the safety performance of AVs.
+
+
+
+
+
+### 1. Driving Safety Performance Assessment Metrics for ADS-Equipped Vehicles (2020)
+
+- **Methodology**: This paper conducted a comprehensive literature review of metrics used for both human-driven and automated vehicles (AVs). It focused on defining and developing a concise set of metrics from both on-board and off-board data sources.
+
+- **Significant Findings**: The research compiled a unique list of proposed metrics, including proximal surrogate indicators, driving behaviors, and rules-of-the-road violations. These metrics allow for a quantitative description of AV safety performance in various situations, such as crashes, potential conflicts, and near misses.
+  
+  

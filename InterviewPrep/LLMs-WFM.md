@@ -202,7 +202,7 @@ The LLM does not produce the whole sentence at once; it produces it **one word a
 
 Here is the exact loop that happens for every multi-word answer:
 
-### The "Loop" Mechanism
+#### The "Loop" Mechanism
 
 1. **Step 1:** You feed the model your question: *"What is the capital of France?"*
    
@@ -245,6 +245,179 @@ Ideally, yes, but that would be slow. To speed this up, engineers use **KV Cachi
 - The model remembers the mathematical "state" of the previous words.
 
 - When generating word #50, it doesn't need to re-calculate words #1–49 from scratch; it just retrieves their calculated states from memory and only does the heavy lifting for the new word.
+
+#### Auto-regressive token prediction
+
+At its core, **auto-regressive token prediction** is the mechanism Large Language Models (LLMs) use to generate text one piece at a time.1 The term "auto-regressive" comes from statistics and simply means "predicting future values based on past values.
+
+In plain English, the model reads what it has written so far to decide what to write next. Here is the step-by-step breakdown of how this process works inside an LLM.
+
+### 1. The Core Loop
+
+An LLM does not write a whole sentence at once.5 It writes the first word, reads it, writes the second word, reads *both*, and so on. This happens in a continuous loop:6
+
++1
+
+1. **Input:** The model takes a sequence of text (the "context").7
+
+2. **Prediction:** It calculates the probability of every possible next token (word or character chunk) in its vocabulary.8
+
+3. **Selection:** It picks one token from those probabilities.9
+
+4. **Update:** It adds that new token to the end of the sequence.10
+
+5. **Repeat:** This new, longer sequence becomes the input for the next step.11
+
+### 2. Under the Hood: From Math to Words
+
+While the loop is simple, the decision-making process for *which* word to pick involves several mathematical steps.12
+
+#### Step A: Processing the Context
+
+When you type "The cat sat on the...", the model turns these words into numbers (embeddings) and passes them through its neural network (Transformer layers).13 The **Attention Mechanism** allows the model to look back at previous words to understand relationships (e.g., knowing "sat" relates to "cat").14
+
++1
+
+#### Step B: Logits and Probabilities
+
+At the very end of the network, the model produces a list of raw scores called **Logits** for every single word in its dictionary (which can be 50,000+ words).15
+
+- **Logits:** Raw, unnormalized scores.16 (e.g., "mat": 15.2, "roof": 10.1, "banana": -5.0).
+
+- **Softmax:** A mathematical function that squashes these logits into **probabilities** that add up to 100%.
+
+| **Token**  | **Logit** | **Probability** |
+| ---------- | --------- | --------------- |
+| **mat**    | 15.2      | **85%**         |
+| **rug**    | 12.1      | **10%**         |
+| **floor**  | 8.5       | **4%**          |
+| **banana** | -5.0      | **0.0001%**     |
+
+#### Step C: Sampling (Making the Choice)
+
+This is where the "personality" of the model comes in. The model doesn't always just pick the #1 most likely word (Greedy Decoding), as that can make text sound robotic and repetitive.17 Instead, it **samples** from the list.18
+
++1
+
+- **Temperature:** A setting that adjusts the probabilities.19 High temperature (e.g., 1.0) flattens the curve, giving lower-probability words a higher chance of being picked (more creative/random).20 Low temperature (e.g., 0.1) sharpens the curve, making the #1 choice almost guaranteed (more deterministic/focused).21
+  
+  +1
+
+- **Top-K / Top-P:** These settings force the model to only consider the top few options (e.g., "only look at the top 5 words") to prevent it from choosing something nonsensical like "banana" in the example above.
+
+### 3. Why This Matters
+
+Understanding this explains many behaviors of LLMs:
+
+- **No Planning:** The model generally doesn't know how a sentence will end when it starts writing it.22 It is improvising word by word.23
+  
+  +1
+
+- **Hallucinations:** If the model picks a slightly wrong token early on, the "auto-regressive" nature means it must now stick to that mistake and generate the next token based on it, often leading to a runaway error.24
+
+- **Context Window Limits:** Since every new word is added to the input history, the input eventually becomes too long for the model to process, which is why LLMs have a maximum "context window" size.25
+
+### Summary
+
+1. **Read** text so far.
+
+2. **Calculate** odds for the next word.26
+
+3. **Roll the dice** (based on Temperature) to pick one word.
+
+4. **Add** the word to the text.
+
+5. **Repeat** until a "Stop" token is generated.27
+
+### Self attention mechanism
+
+Here is a technical deep dive into the **Self-Attention Mechanism** (specifically within a Transformer architecture).
+
+To understand this technically, we must view the model not as a reader, but as a series of **vector matrix operations**. The "memory" is actually a process of **weighted aggregation** of information across the entire sequence.
+
+### 1. The Setup: Embeddings & Positional Encoding
+
+Before the attention mechanism starts, the input text is converted into a matrix $X$.
+
+- **Token Embeddings:** Each token is turned into a high-dimensional vector (e.g., a list of 4,096 numbers).
+
+- **Positional Encodings:** Since the attention mechanism treats all words simultaneously (permutation invariant), we must inject information about order. We add a positional vector to the token embedding so the model knows that "dog bites man" is different from "man bites dog."
+
+### 2. The Linear Projections (The Learnable Part)
+
+This is where the "intelligence" lives. For every token vector $x$, we apply three separate learned linear transformations (matrix multiplications) to project the input into three different subspaces.
+
+We multiply the input $x$ by three weight matrices ($W_Q, W_K, W_V$) that were learned during training:
+
+$Q = x \cdot W_Q \quad (\text{Query})$
+
+$K = x \cdot W_K \quad (\text{Key})$
+
+$V = x \cdot W_V \quad (\text{Value})$
+
+- **Technical Note:** These projections allow the model to encode the token in three different ways for three different roles. The vector used to *ask* for context ($Q$) should be different from the vector used to *provide* context ($K$).
+
+### 3. Scaled Dot-Product Attention (The Equation)
+
+The core of the mechanism is defined by this specific formula:
+
+$$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{Q K^T}{\sqrt{d_k}}\right) V$$
+
+Let's break down the operations inside this formula:
+
+#### A. The Dot Product ($Q K^T$)
+
+We take the Query vector of the current token and perform a **Dot Product** with the Transposed Key vectors ($K^T$) of every other token in the sequence.
+
+- **Geometric meaning:** The dot product measures the **cosine similarity** (alignment) between vectors.
+
+- **Result:** A raw score indicating how "relevant" token A is to token B. If the vectors point in the same direction, the score is high (high relevance).
+
+#### B. Scaling ($\frac{1}{\sqrt{d_k}}$)
+
+We divide the raw scores by the square root of the dimension of the key vectors ($d_k$).
+
+- **Why?** If the vectors are large, the dot products can become huge numbers. When fed into the Softmax function (next step), huge numbers cause **vanishing gradients** (the model stops learning effectively). Scaling keeps the variance stable.
+
+#### C. Softmax
+
+We apply the Softmax function to the scaled scores.
+
+- **Result:** This converts raw scores (logits) into an **Attention Weight Distribution** (probabilities that sum to 1.0).
+
+- **Interpretation:** "For the word 'Bank', pay 85% attention to 'River', 10% to 'The', and 5% to 'overflowed'."
+
+### 4. The Weighted Sum (Context Integration)
+
+Finally, we multiply these attention weights by the **Value ($V$)** vectors.
+
+$$\text{Output} = \sum (\text{Attention Weight} \times V)$$
+
+This is the critical "memory" step. The output for the token "Bank" is no longer just the vector for "Bank." It is a **weighted sum** of the vectors for "River", "Flooded", and "Bank" combined.
+
+- **Information Flow:** The semantic meaning of "River" (contained in its $V$ vector) has effectively flowed into the representation of "Bank."
+
+### 5. Multi-Head Attention (Parallel Subspaces)
+
+Standard transformers don't just do this once; they use Multi-Head Attention.
+
+The model splits the embedding dimension into multiple smaller "heads" (e.g., 8 or 12 heads). Each head has its own unique $W_Q, W_K, W_V$ matrices.
+
+- **Head 1** might learn syntactic relationships (subject-verb agreement).
+
+- **Head 2** might learn semantic relationships (synonyms).
+
+- **Head 3** might learn causal relationships (if-then structures).
+
+The outputs of all heads are concatenated and projected back to the original dimension.
+
+### Summary of Technical Context Retention
+
+The model "remembers" context because the mathematical representation of every token at layer $N$ is actually a **composite vector** containing information aggregated from every other relevant token at layer $N-1$.
+
+By the time the signal passes through dozens of layers (Deep Learning), the final vector for the last token contains a rich, compressed "memory" of the entire preceding sequence, allowing the auto-regressive head to predict the next token accurately.
+
+--- 
 
 # Diffusion models
 
@@ -628,3 +801,128 @@ Scale this over millions of tokens in prefill and the hit rate becomes multiplic
 Bottom line: In prefill, you're either doing cheap memory lookups… or paying the K/V compute price. Hit rate decides which world you live in.
 
 ![diagram](https://media.licdn.com/dms/image/v2/D5622AQEfD1-ea-eLGg/feedshare-shrink_800/B56ZsT_cFKIEAg-/0/1765566956662?e=1767225600&v=beta&t=Q7PKT829pIo7eUieWuziwDJF90fd7-9KaCUcvcKANUc)
+
+# Chain of Thought
+
+To understand how **Chain of Thought (CoT)** is implemented "in reality," you have to look at it from two different perspectives: the **Model User** (how you implement it via API/prompt) and the **Model Creator** (how it is baked into the model via training).
+
+In reality, CoT is rarely a change to the "physical" architecture of the model (the neural network layers usually remain the same). Instead, it is a manipulation of the **data flow** and **token sequence**.
+
+Here is the detailed breakdown of how CoT is actually implemented.
+
+---
+
+### 1. The Inference Layer (How it works at Runtime)
+
+When you use a model like GPT-4 or Claude, CoT is implemented purely as **text injection**. The model does not have a separate "reasoning brain"; it simply predicts the next word. CoT works by effectively "hacking" the autoregressive nature of the LLM.
+
+#### The Mechanism: "Compute via Tokens"
+
+An LLM has a fixed amount of computation it can do *per token*. If you ask a complex question and demand an immediate answer, the model has to solve the logic, math, and syntax all in a single forward pass.
+
+- **Without CoT:** Input $\rightarrow$ [1 forward pass] $\rightarrow$ Output "42".
+
+- **With CoT:** Input $\rightarrow$ [Forward pass 1] $\rightarrow$ "First," $\rightarrow$ [Forward pass 2] $\rightarrow$ "we" $\rightarrow$ ... $\rightarrow$ "42".
+
+By forcing the model to generate 100 tokens of reasoning before the answer, you are granting it 100x more "compute time" (forward passes) to process the problem.
+
+#### The "Zero-Shot" Implementation (Trigger Phrases)
+
+This is the simplest implementation, famously discovered by Kojima et al. (2022). It involves appending a specific string to the input.
+
+- **Implementation:** You concatenate the string `"\nLet's think step by step."` to the user's prompt.1
+
+- **Reality:** This string shifts the probability distribution of the next token. In the model's training data (textbooks, Stack Overflow), the phrase "step by step" is usually followed by a logical derivation. The model mimics this pattern.2
+
+#### The "Few-Shot" Implementation (In-Context Learning)
+
+This is the standard engineering implementation. You prepend "exemplars" (examples) to the prompt context window.
+
+**Structure of the Input sent to the API:**
+
+Plaintext
+
+```
+Q: Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each can has 3 tennis balls. How many does he have now?
+A: Roger started with 5 balls. 2 cans * 3 balls = 6 new balls. 5 + 6 = 11. The answer is 11.
+###
+Q: [User Input]
+A: 
+```
+
+**Reality:** The model attends to the previous examples via its **Self-Attention Mechanism**. It copies the *structure* of the reasoning (Breakdown $\rightarrow$ Calculation $\rightarrow$ Answer) and applies it to the new `[User Input]`.
+
+---
+
+### 2. The Training Layer (How it is "baked in")
+
+Modern models (like Llama 3, Orca, or GPT-4) don't just rely on you asking them to think; they are **fine-tuned** to do it automatically. This is the "hard" implementation.
+
+#### Dataset Curation (The "CoT Collection")
+
+Developers create massive datasets specifically for CoT. They don't just scrape the web; they synthetically generate reasoning chains.
+
+1. **Question:** "Is a dove a mammal?"
+
+2. **Standard Label:** "No."
+
+3. **CoT Label:** "A dove is a bird. Birds lay eggs and have feathers. Mammals give birth to live young and have fur. Therefore, a dove is not a mammal. Answer: No."
+
+#### Instruction Tuning (SFT)
+
+During the Supervised Fine-Tuning (SFT) phase, the model is penalized if it jumps straight to the answer. The loss function is calculated on the *reasoning tokens* as well as the *answer tokens*.
+
+- **Implementation:** The model weights are updated to maximize the probability of the *explanation* sequence.
+
+- **Result:** When you ask a question later, the model's internal probability distribution now favors outputting the "explanation" tokens first, even without a "Let's think step by step" prompt.
+
+---
+
+### 3. The "System" Implementation (The Hidden Layer)
+
+When you use ChatGPT or Claude via their web interfaces, there is often an invisible layer of CoT implementation known as **System Prompt Injection**.
+
+Before your message reaches the model, the backend wraps your prompt in a meta-template.
+
+- **Hidden System Prompt:** `You are a helpful assistant. When asked a math or logic question, you must break down the problem step-by-step before answering.`
+
+- **User sees:** Just the answer.
+
+The "Hidden Chain" (New Frontier):
+
+Newer "reasoning models" (like OpenAI's o1 series or research like Quiet-STaR) implement a more radical version:
+
+1. **Hidden Tokens:** The model generates reasoning tokens that are visible to the system but *hidden* from the user.
+
+2. **Reinforcement Learning:** The model is trained using Reinforcement Learning (RL) where the reward is given only for the correct final answer, but the model is allowed to generate "thought tokens" in between to get there.
+
+3. **Implementation:** The inference engine runs the model until it outputs a special `<end_of_thought>` token, filters out the thought text, and streams only the result to the user.
+
+---
+
+### 4. Advanced: Program-Aided CoT (PAL)
+
+In high-reliability implementations (e.g., inside financial agents), CoT is implemented not as text, but as **code**.
+
+- **Prompt:** "Write a Python script to solve this step by step."
+
+- **Implementation:**
+  
+  1. Model generates Python code (The "Chain of Thought").
+  
+  2. System halts generation.
+  
+  3. System executes Python code in a sandbox.
+  
+  4. System appends the result to the context.
+  
+  5. Model generates the final answer based on the code execution.
+
+### Summary Table: Implementation Types
+
+| **Type**       | **Where it lives** | **How it works**                                                      |
+| -------------- | ------------------ | --------------------------------------------------------------------- |
+| **Zero-Shot**  | Prompt String      | Appending "Let's think step by step".                                 |
+| **Few-Shot**   | Context Window     | Pre-pending Q&A examples with reasoning steps.                        |
+| **Fine-Tuned** | Model Weights      | Training on datasets (like FLAN or Orca) containing reasoning traces. |
+| **System 2**   | Inference Engine   | Hiding "thought tokens" from the user (e.g., OpenAI o1, Quiet-STaR).  |
