@@ -1,5 +1,139 @@
 # LLMs
 
+# Stanford  CS295 LLMs and Transformers
+
+## Tokenization
+
+ just a way to represent language
+
+    could be word-wise or sub-word wise
+
+you build a vocabulary from this tokenization process
+
+
+
+single language vocabulary: ~10Ks words
+
+multilanguage: ~100Ks words
+
+multi task language (llm + code): > 100Ks
+
+
+
+end of sequence token is there to know when the sequence ends.
+
+
+
+## Embedding representation
+
+an NN with a proxy task over millions of tokens to learn the representation of the language.
+
+**proxy tasks:**
+
+contnous bag of words - predicts words around a set of words
+
+skip gram - predicts the next token
+
+
+
+**word2vec:**
+
+one hot encoding representation passes thru an NN, after a soft max layer, it predicts the prob for the next token. 
+
+process: for every word,  you represent it as a one hot encoding, passes thru an NN, make a prediction about the first word, compute the loss, update weights and move to the next token. 
+
+
+
+hidden layer size: depends on the complexity of your task. 100s or 1Ks size in practicallity. usually ppl use: 768
+
+--> the representations you learn are token specific
+
+## RNNs
+
+RNNs, instead of processing words one at a time, they keep the hidden rep of the sentence sofar and consider tokens one at the time. 
+
+have the issue of not retaining previous knolwedge. vanishing gradient. 
+
+in order to predict the last word, you are dependent on every hidden state that came before that. because of this, you get vanishing gradients
+
+LSTM help in this way. 
+
+
+
+## Attention
+
+originated in 2014. having a way to know which word you are trying to predict. 
+
+**Attention is all you need** - 2017 paper. state of the art translation mechanisms.
+
+**self attention:** move away from sequential ways of processing text and direct connections to all parts of the text at once.
+
+
+
+you use attention mechanism in order to compute the representation of a word that is unique to the context of the text. the representation has contextual information as well. 
+
+
+
+## Query, Key, Value:
+
+![](/Users/xonxis/Library/Application%20Support/marktext/images/2026-01-15-09-01-05-image.png)
+
+
+
+**GOAL:** you want to quantify how similiar your **QUERY** is to a given KEY, **and** then you get that **VALUE**
+
+**Process:** compare the query to all other keys, compare similiarity and weight it and then take that asociated value.
+
+
+
+pros: can be computed in a matrix format. 
+
+![](/Users/xonxis/Library/Application%20Support/marktext/images/2026-01-15-09-04-23-image.png)
+
+
+
+the quantities are learned. 
+
+the key is there for you to figure out which key is most similiar to the query. **these things are learned by the model**
+
+
+
+## Architecture
+
+Attention layer (MHA)
+
+encoder-decoder 
+
+
+
+compute meaningful embeddings by passing that thru the layer 
+
+input text + tokens will attent to one another
+
+
+
+use all the representation of your input sentence to predicvt the next word. 
+
+
+
+goal: what are the words that i;ve used so far are relevant to predict the next one.
+
+![](/Users/xonxis/Library/Application%20Support/marktext/images/2026-01-15-17-36-36-image.png)
+
+ 
+
+attention layer: 
+
+comuting embeddings from the input sentences as a function of itself. 
+
+maskes self attentionL: express something 
+
+
+
+you dont have any sense of order. so you have positional encodings to know 
+
+
+
 # LLM Architecture
 
 Last Updated : 28 Oct, 2025
